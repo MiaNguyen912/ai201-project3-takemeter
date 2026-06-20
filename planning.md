@@ -191,3 +191,98 @@ Total may exceed 200 to achieve balance; this is acceptable. A small imbalance (
 - Precision: Prevents false positives that frustrate users ("This isn't a question, why was it routed here?")
 - Recall: Prevents false negatives that make the tool useless ("I asked a question but it wasn't found")
 - The asymmetry matters: low recall on `request` is worse than low precision (users need help found, not routed)
+
+
+## AI Tool Plan ##
+
+This section outlines where and how AI tools will augment the annotation and evaluation process.
+
+### 1. Label Stress-Testing (Before Annotation)
+
+- I use claude to ChatGPT to ensure the label taxonomy boundaries are clear before annotating 200 examples. If definitions are ambiguous, the AI helped me catch it early and refine the definition, avoid overlapping meaning
+
+**Process:**
+1. Feed ChatGPT the 4 labels' simple definitions and 40 text examples with their expected label
+2. Ask it to refine my label definition based on the examples
+3. Use AI to generate 5–10 posts that sit at the boundary between the two hardest pairs:
+   - **Showcase vs Opinion:** "I found a product I love and want to share it"
+   - **Advice vs Opinion:** "Here's my recommendation for your problem"
+3. Manually classify each generated post using the taxonomy and recurringly refine the decision rules when I struggle to classify or find that the definitions have unclear spots
+
+**Prompt used:**
+```
+i want to train a few-shot learning model, which is an a fine-tuned text classifier that evaluates discourse quality in an online makeup community (e.g subreddits, Discord servers, discussion boards, etc. - spaces where people share makeup posts constantly). I'll need to define the label taxonomy for a classification task , collect and annotate the data, fine-tune a model, and then assess where it works and where it falls apart. now, the first task i need to do is to write a clear definition for my label taxomony . 
+
+Bellow are some taxonomy example for the "sport" community (note that im doing "makeup" community, these examples are just for reference):
+- **Weak taxonomy example (too vague):**  `good` — a quality post; `bad` — a low-quality post ⇒ This fails because "quality" is entirely in the eye of the beholder. Two annotators will apply it differently, and the model will learn an inconsistent signal. The boundary is also impossible to specify: what makes one reaction post "good" and another "bad"?
+
+- **Strong taxonomy example (precise and grounded):**
+    - `analysis` — the post makes a structured argument backed by statistics, historical comparison, or tactical observation. Evidence is specific and verifiable.
+    - `hot_take` — a bold, confident opinion stated without supporting evidence. The claim might be true, but the post asserts rather than argues.
+    - `reaction` — an immediate emotional response to a specific event. Little to no argument — the post is expressing a feeling in the moment.
+⇒ These work because: (1) you can state the decision boundary in a sentence, (2) two people reading the definitions would agree on most examples, and (3) the distinctions reflect how people in the community actually talk about discourse quality.
+
+- **What makes labels too vague:**
+    - Relying on subjective words without definition: "insightful," "toxic," "engaging"
+    - Labels that overlap: if a post can reasonably belong to two labels, the boundary isn't precise enough
+    - Labels too broad to apply: if one label captures 80% of posts, it's not distinguishing anything
+
+I need you to help me defined my label taxonomy. Some labels i have in mind are: make up inspiration - tips - request - opinion. I'll give you a csv of posts example and their associated label. your job is to write the definition of each label, point out the key signals, and give a few clear example of each label. You may rename/remove/add label to make them clearer on their meaning and avoid overlapping if necessary.
+
+```
+
+---
+
+### 2. Annotation Assistance
+
+**Process:**
+1. I collect ~200 raw posts from Reddit/Discord
+2. Give Claude the label definitions in `planning.md` and ask it to pre-label each post with:
+   - Predicted label (`showcase`, `request`, `advice`, `opinion`)
+   - (optional) Confidence score (0–100%)
+   - Brief reasoning (1–2 sentences)
+3. Manually re-label each post, focus on the ones with low confidence score
+
+
+**Prompt used:**
+```
+Given the <filename>.csv file, which includes posts/comments within the makeup community on the first column.
+The first column is the posts' text, the second column is for their associated label (showcase, request, advice, opinion)
+Your job is to read the label definitions and examples in planning.md, then update <filename>.csv to annotate each post with a correct label.
+For posts that sit at the boundary between labels, add a short reasoning in the third column to explain why you decided to go with the label in the second column
+```
+
+---
+
+### 3. Failure Analysis (After Model Training)
+
+**Goal:** Understand why the model made mistakes, identify if issues are in the taxonomy or the data.
+
+**Process:**
+1. After training, extract all misclassified examples (predicted label ≠ true label)
+2. Group by error type:
+   - `request` → `advice` (what % of request errors?)
+   - `advice` → `opinion` (what % of advice errors?)
+   - etc.
+3. For the top 2–3 error types, give Claude a batch of examples and ask:
+   - "Why is the model confusing X and Y? What's ambiguous about these posts?"
+   - "Do these posts violate the taxonomy decision rules? If so, which rules are unclear?"
+4. Use Claude's analysis to inform next steps:
+   - If the confusion is taxonomy-based: refine decision rules and re-annotate conflicting examples
+   - If the confusion is data-based: collect more contrastive examples for the weak pair
+
+
+**Prompt template:**
+```
+I trained a classification model on makeup community posts. Here are examples where it confused [Label A] and [Label B]:
+
+Label definitions and decision rules are in planning.md
+
+Misclassified examples:
+[list 5–10 examples: actual label, predicted label, post text]
+
+Questions:
+1. What's ambiguous about these posts?
+2. Do any violate the decision rules?
+3. What could the model improve on?
+```
