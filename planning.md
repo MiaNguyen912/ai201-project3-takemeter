@@ -26,13 +26,19 @@ The taxonomy distinguishes between posts that primarily **showcase** a look or r
 
 - `request` (seeking information/help/recommendations)
     - The author is seeking information, recommendations, troubleshooting help, product identification, or guidance from others. The author does not already have the answer and needs input from the community.
-    - **Key signal:** The post is primarily asking/seeking. The author wants others to provide information, suggestions, or answers. The tone can be a direct question (“How do I...?”) or an implicit request (“Setting spray, pleaseee”).
+    - **Key signal:** The post is primarily asking/seeking. The author wants others to provide information, suggestions, or answers. The tone can be a direct question (“How do I...?”), an implicit request (“Setting spray, pleaseee”), or a **problem-framed post** where the author describes their routine/experience **as context for the problem, not as the focal point**.
+    - **Distinguishing from showcase:** When a post describes a personal routine or experience, check the FRAME and PRIMARY INTENT:
+      - **Showcase = personal content is the focal point:** “Here's my routine and it works great!” or “Here's my discovery/experience worth sharing”
+      - **Request = personal content is context for a problem:** “I try this routine but it doesn't work” or “Here's my experience and I'm struggling with it”
+      - **Rule of thumb:** If the post opens or closes by emphasizing a problem (“No matter how much I try... it never works”, “I really need something that...”), it's likely a request, even if it includes detailed personal routine description.
     - **Examples:**
-        - “How do I fix under-eye creasing?” (seeking troubleshooting help)
-        - “What setting spray are you using?” (seeking product recommendations)
-        - “Can anyone identify this lipstick?” (seeking product identification)
-        - “Does anyone have recommendations for a cool-toned blush?” (seeking recommendations)
-        - “Setting spray, pleaseeee” → label `request` (seeking a product recommendation through an emphatic request, not stating a fact)
+        - “How do I fix under-eye creasing?” (direct question seeking help)
+        - “What setting spray are you using?” (direct question seeking recommendations)
+        - “Can anyone identify this lipstick?” (direct question seeking product ID)
+        - “Does anyone have recommendations for a cool-toned blush?” (direct question seeking recommendations)
+        - “Setting spray, pleaseeee” → label `request` (implicit request through emphatic tone)
+        - “No matter how much I try to achieve this look, it doesn't work. I apply concealer... use powder... but it never looks right. The products I use are: [list].” → label `request` (describes personal routine as context for an implicit help request, not as a showcase of the routine)
+        - “I recently tried a product and I'm disappointed. It creases and flakes no matter what I do. I really need something that will help my makeup stay put.” → label `request` (personal experience framed as a problem seeking solutions)
 
 
 - `advice` (providing guidance to help solve a problem or achieve a result)
@@ -78,9 +84,27 @@ The taxonomy distinguishes between posts that primarily **showcase** a look or r
     - **Rule:** Is the author’s story *”I found/did something amazing”* (showcase) or *”here’s my judgment about X”* (opinion)?
     - “I just tried this blush and wow, the color is so perfect for my skin tone.” → `showcase` (story centers on **personal** discovery)
     - “This blush color is perfect for warm undertones.” → `opinion` (making a judgment claim)
-    - “This foundation is amazing. You should definitely try it.” → `showcase` (author excited about **personal** discovery; recommendation expresses enthusiasm)
     - “This foundation is amazing. It works better than [competitor].” → `opinion` (making a comparative judgment)
     - **Gut check:** Remove the recommendation from the post. Does it still work as a personal story? If yes → `showcase`. If the recommendation is essential to complete a judgment → `opinion`.
+
+    - **The Core Distinction**
+        - OPINION: The post makes a judgment CLAIM about the product
+            Focus: What the author THINKS about the product
+            Goal: Share a verdict to inform the reader
+            Pattern: Product name + evaluation word
+            Examples:
+                "Charlotte Tilbury is my go-to"
+                "Charlotte Tilbury is the best"
+                "Charlotte Tilbury is worth it"
+                "Charlotte Tilbury lasts longer"
+        - SHOWCASE: The post tells a personal DISCOVERY STORY
+            Focus: What the author FOUND or DID
+            Goal: Share their personal journey/experience
+            Pattern: Author + action + discovery
+            Examples:
+                "I recently tried Charlotte Tilbury and I'm shocked at how well it works"
+                "I finally found Charlotte Tilbury after months of searching"
+                "I use Charlotte Tilbury and it changed my makeup game"
 
 - **showcase vs advice (product recommendations):**
     - **Rule:** Is the author sharing a *personal discovery* they’re excited about (showcase) or *prescribing an action to solve someone’s problem* (advice)?
@@ -88,6 +112,9 @@ The taxonomy distinguishes between posts that primarily **showcase** a look or r
     - “Use a tubing mascara if your mascara smudges.” → `advice` (solving a problem with a prescription)
     - “Recently picked up the Patrick Ta cream and I’m honestly shocked it blends so easily and stays all day.” → `showcase` (sharing a discovery)
     - “Try the Patrick Ta cream for better blending.” → `advice` (prescribing for a specific result)
+
+- **showcase vs request:**
+    - In the case the author is sharing their personal story/routin, if the post framed the routine as worth sharing (success), it would be showcase, but if it frames the routine as CONTEXT FOR A PROBLEM, it's request — the author is implicitly seeking help understanding why the routine doesn't work (The personal content is there, but the primary intent is troubleshooting help, not routine showcase)
 
 - **advice vs request:**
     - “What setting spray should I use?” → `request` (author lacks information)
