@@ -578,6 +578,8 @@ Both advice errors involve short, direct statements that could be read either as
 
 ### Overall accuracy
 
+[evaluation_results.json](evaluation_results/evaluation_results.json)
+
 | Model | Accuracy | Macro F1 |
 | ----- | :------: | :------: |
 | Zero-shot baseline (Groq — llama-3.3-70b) | **0.903** | **0.90** |
@@ -611,17 +613,17 @@ The gap is largest on `showcase` (F1: 0.86 → 0.67) and `opinion` (F1: 0.93 →
 
 ### Sample Classifications — fine-tuned model (epochs = 10)
 
-Five representative posts from the test set. Confidence scores for correct predictions are approximate; scores for incorrect predictions are exact from the evaluation notebook.
+The notebook only logged confidence scores for wrong predictions. Correct-prediction confidence scores were not captured in the evaluation output, so the table below only includes the two incorrect examples with known confidence scores, alongside three correct examples without them.
 
 | Post (truncated) | True label | Predicted | Confidence | Correct? |
 | ---------------- | :--------: | :-------: | :--------: | :------: |
-| "Apply lip liner all over the lips if you want longer wear." | `advice` | `advice` | ~0.88 | ✓ |
-| "Can you use tubing mascara over a primer?" | `request` | `request` | ~0.91 | ✓ |
-| "Tried a soft glam look for brunch today and I'm actually happy with how the blend turned out." | `showcase` | `showcase` | ~0.79 | ✓ |
+| "Apply lip liner all over the lips if you want longer wear." | `advice` | `advice` | — | ✓ |
+| "Can you use tubing mascara over a primer?" | `request` | `request` | — | ✓ |
+| "Tried a soft glam look for brunch today and I'm actually happy with how the blend turned out." | `showcase` | `showcase` | — | ✓ |
 | "I absolutely love the wet and wild tinted hydrator! It goes on so smooth" | `opinion` | `showcase` | 0.50 | ✗ |
 | "It's the red lip. Do a nude or cool-toned beige instead." | `advice` | `opinion` | 0.34 | ✗ |
 
-**Why the first prediction is reasonable:** "Apply lip liner all over the lips if you want longer wear" is a textbook `advice` post — it opens with an imperative verb ("Apply"), specifies a product, and ends with a stated goal ("longer wear"). The model has seen this prescriptive structure frequently enough to classify it confidently. The ~0.88 confidence reflects that this form of direct instruction is the clearest signal in the `advice` class.
+**Why the first prediction is reasonable:** "Apply lip liner all over the lips if you want longer wear" is a textbook `advice` post — it opens with an imperative verb ("Apply"), specifies a product, and ends with a stated goal ("longer wear"). This prescriptive structure is the clearest surface signal the model learned for the `advice` class, making it one of the least ambiguous classification cases.
 
 ---
 
